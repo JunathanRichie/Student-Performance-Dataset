@@ -1,50 +1,44 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Junathan Richie
 
 ## Domain Proyek
 
-Pada bagian ini, kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-  
-  Format Referensi: [Judul Referensi](https://scholar.google.com/) 
+Dengan adanya perkembangan teknologi yang ada, muncul suatu istilah yaitu _Educational Data Mining_ (EDM). EDM adalah bidang yang menggabungkan beberapa disiplin ilmu seperti _data mining_, _machine learning_, _psychometrics_, _data visualization_, dan _learning theory_ untuk mendapatkan informasi di bidang pendidikan [(Sadia et al., 2020)](https://www.researchgate.net/publication/341259033_Educational_Data_Mining_A_Review_and_Analysis_of_Student's_Academic_Performance). EDM menjadi suatu topik riset yang populer karena adanya digitalisasi pada bidang pendidikan membuat tersedianya data di bidang pendidikan. Selain itu, pendidikan juga adalah salah satu faktor terpenting dalam perkembangan sumber daya manusia (SDM) di dunia. 
+<br>
+Berdasarkan latar belakang di atas, proyek ini akan membahas mengenai _predictive analytics_ di bidang pendidikan. Proses _predictive analytics_ yang dilakukan berupa regresi terhadap GPA (_Grade Point Average_) pada dataset _Student Performance Dataset_. Dataset tersebut menyimpan berbagai informasi seperti demografi, kebiasaan belajar, pengaruh orang tua, kegiatan ekstrakurikuler, dan performa akademik. Proyek ini diharapkan bisa menjadi dasar untuk mengembangkan model-model yang berkaitan dengan prediksi performa siswa atau mahasiswa dalam pendidikan serta dapat berguna untuk mengembangkan bidang pendidikan. 
 
 ## Business Understanding
 
-Pada bagian ini, kamu perlu menjelaskan proses klarifikasi masalah.
-
-Bagian laporan ini mencakup:
-
 ### Problem Statements
-
-Menjelaskan pernyataan masalah latar belakang:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+Rumusan masalah berdasarkan latar belakang di atas sebagai berikut. 
+- Apa faktor yang paling mempengaruhi GPA? 
+- Bagaimana model _machine learning_ yang tepat untuk melakukan prediksi GPA?
 
 ### Goals
+Tujuan dari proyek ini adalah sebagai berikut: 
+- dapat menganalisis faktor yang paling mempengaruhi GPA
+- mendapatkan model _machine learning_ yang tepat untuk prediksi GPA
 
-Menjelaskan tujuan dari pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
-
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Statement” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution statement. Misalnya, menggunakan dua atau lebih algoritma untuk mencapai solusi yang diinginkan atau melakukan improvement pada baseline model dengan hyperparameter tuning.
-    - Solusi yang diberikan harus dapat terukur dengan metrik evaluasi.
+### Solution statements
+Cara yang dapat dilakukan untuk meraih goals tersebut adalah sebagai berikut:
+- melakukan pengolahan data untuk melihat korelasi dari fitur-fitur yang ada
+- menggunakan model dengan metode K-Nearest Neighbor (KNN) disertai dengan hyperparameter tuning
+- menggunakan model dengan metode RandomForest disertai dengan hyperparameter tuning
+- menggunakan model dengan metode GradientBoosting disertai dengan hyperparameter tuning
+- menggunakan model dengan metode XGBoost disertai dengan hyperparameter tuning
+- menggunakan model dengan metode Support Vector Regression (SVR) dengan hyperparameter tuning
+- melakukan perbandingan dari hasil evaluasi berbagai model yang telah dilakukan
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai data yang Anda gunakan dalam proyek. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
-
-Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat oleh Rabie El Kharoua dan dapat diunduh dari [Kaggle](https://www.kaggle.com/datasets/rabieelkharoua/students-performance-dataset/data). Dataset ini terdiri dari 2.392 data dari siswa SMA dengan 14 fitur (kolom). 
 
 ### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
+- StudentID : merupakan penanda unik dari setiap siswa dalam rentang 1001 - 3392
+- Age : merupakan umur dari setiap siswa dalam rentang 15 - 18 tahun
+- Ethnicity: merupakan kelompok etnis dari siswa yang dikodekan sebagai berikut: 
+0: Caucasian
+1: African American
+2: Asian
+3: Other
 - accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
 - cuisine : merupakan jenis masakan yang disajikan pada restoran.
 - dst
@@ -84,3 +78,6 @@ Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, probl
 _Catatan:_
 - _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
 - Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+
+## Referensi
+[Educational Data Mining: A Review and Analysis of Student’s Academic Performance](https://www.researchgate.net/publication/341259033_Educational_Data_Mining_A_Review_and_Analysis_of_Student's_Academic_Performance)
