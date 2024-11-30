@@ -109,33 +109,67 @@ Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat
   ```
 ### Explaratory Data Analysis - Outliers
 Pengecekan outliers pada data numerik
-- StudyTimeWeekly
-- Absences
+- StudyTimeWeekly <br>
+  ![image](https://github.com/user-attachments/assets/82b262e8-bd20-46a8-a92b-cf5ede598240) <br>
+  Keterangan: Tidak ada outliers
+- Absences <br>
+  ![image](https://github.com/user-attachments/assets/23eae511-cb39-470c-833f-db254a3a7aa7) <br>
+  Keterangan: Tidak ada outliers
 
 ### Explaratory Data Analysis - Univariate Analysis
-- Gender
-- Ethnicity
-- ParentalEducation
-- Tutoring
-- ParentalSupport
-- Extracurricular
-- Sports
-- Music
-- Volunteering
-- Data numerik
+- Gender <br>
+  ![image](https://github.com/user-attachments/assets/40f422f9-90e0-4908-9a6a-c43481bd026b)
+
+- Ethnicity <br>
+  ![image](https://github.com/user-attachments/assets/47b5b236-f875-4298-848a-0bfbf1327c34)
+
+- ParentalEducation <br>
+  ![image](https://github.com/user-attachments/assets/6a18af14-6c24-4a66-b117-0e64fa978302)
+
+- Tutoring <br>
+  ![image](https://github.com/user-attachments/assets/749277c4-17c4-471e-b7e9-3ad6ab81937e)
+
+- ParentalSupport <br>
+  ![image](https://github.com/user-attachments/assets/e4f82c08-2d36-44d8-b077-c7994ec57d19)
+
+- Extracurricular <br>
+  ![image](https://github.com/user-attachments/assets/2b334673-8be2-407a-9ebf-2b98b028dc80)
+
+- Sports <br>
+  ![image](https://github.com/user-attachments/assets/9ba29c8f-cd03-43d4-a14f-ea24e6b92a73)
+
+- Music <br>
+  ![image](https://github.com/user-attachments/assets/908ccdbe-f0f1-49b7-81b3-3a581baf2614)
+- Volunteering <br>
+  ![image](https://github.com/user-attachments/assets/c7850a39-5175-477a-b243-ab048d71850f)
+- Data numerik <br>
+  ![image](https://github.com/user-attachments/assets/12a383eb-3419-4931-bc94-4f527f1e2991)
+
 ### Explaratory Data Analysis - Multivariate Analysis
 Rata-rate 'GPA' Relatif terhadap :
-- Gender
-- Ethnicity
-- ParentalEducation
-- Tutoring
-- ParentalSupport
-- Extracurricular
-- Sports
-- Music
-- Volunteering
-- Data numerik
-- Correlation Matrix
+- Gender <br>
+  ![image](https://github.com/user-attachments/assets/9bf15b0a-5961-4dd0-8631-2bd7ace6e2f5)
+- Ethnicity <br>
+  ![image](https://github.com/user-attachments/assets/2b1f0243-8e56-4e3e-922b-4d103926e87c)
+- ParentalEducation <br>
+  ![image](https://github.com/user-attachments/assets/6734912c-dfb5-4533-aea4-1cff013b150e)
+- Tutoring <br>
+  ![image](https://github.com/user-attachments/assets/dbcc3e58-fd43-4dac-9043-5bae58fcba53)
+- ParentalSupport <br>
+  ![image](https://github.com/user-attachments/assets/3e302512-008f-48e2-973f-a3d5d654242b)
+- Extracurricular <br>
+  ![image](https://github.com/user-attachments/assets/871aee5f-e105-464a-974a-8ad709d9b76c)
+- Sports <br>
+  ![image](https://github.com/user-attachments/assets/341c4257-0c76-4d23-b3d2-378c50399257)
+- Music <br>
+  ![image](https://github.com/user-attachments/assets/7995c246-21cb-4750-b978-1d29013e8fdc)
+- Volunteering <br>
+  ![image](https://github.com/user-attachments/assets/6d724fb3-6b2a-422f-a58e-34e28c8103e8)
+- Data numerik <br>
+  ![image](https://github.com/user-attachments/assets/e932d69e-cc96-4b3d-91cf-558ea04e3cc1)
+- Correlation Matrix <br>
+  ![image](https://github.com/user-attachments/assets/7c57538f-5c80-4fb4-8fe1-1de2fa14f671)
+
 
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
