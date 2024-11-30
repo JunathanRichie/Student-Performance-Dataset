@@ -85,6 +85,8 @@ Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat
   | 12 | Volunteering         | 2392 non-null  | int64   |
   | 13 | GPA                  | 2392 non-null  | float64 |
   | 14 | GradeClass           | 2392 non-null  | float64 |
+
+  Berdasarkan data tersebut terlihat bahwa tipe data dari dataset tersebut hanya terdiri dari int64 dan float64. Hal ini menunjukkan bahwa seluruh data kategorikal seperti Gender, Ethnicity, ParentalEducation, dan lainnya telah diubah dikodekan dengan angka sehingga menjadi int64.
 - Deskripsi dari setiap data
   
   | Statistic          | StudentID   | Age         | Gender      | Ethnicity   | ParentalEducation | StudyTimeWeekly | Absences    | Tutoring    | ParentalSupport | Extracurricular | Sports      | Music       | Volunteering | GPA         | GradeClass  |
@@ -97,6 +99,43 @@ Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat
   | 50%                | 2196.500000 | 16.000000   | 1.000000    | 0.000000    | 2.000000          | 9.705363        | 15.000000   | 0.000000    | 2.000000        | 0.000000        | 0.000000    | 0.000000    | 0.000000     | 1.893393    | 4.000000    |
   | 75%                | 2794.250000 | 17.000000   | 1.000000    | 2.000000    | 2.000000          | 14.408410       | 22.000000   | 1.000000    | 3.000000        | 1.000000        | 1.000000    | 0.000000    | 0.000000     | 2.622216    | 4.000000    |
   | max                | 3392.000000 | 18.000000   | 1.000000    | 3.000000    | 4.000000          | 19.978094       | 29.000000   | 1.000000    | 4.000000        | 1.000000        | 1.000000    | 1.000000    | 1.000000     | 4.000000    | 4.000000    |
+
+- Berdasarkan data tersebut, kolom StudentID dapat didrop karena tidak memiliki keterkaitan dengan tujuan. Selain itu, kolom GradeClass juga dapat didrop karena menunjukkan hal yang sama dengan GPA tetapi hanya berbeda format. 
+  ```py
+  # Drop StudentID Column karena tidak memiliki keterkaitan dengan tujuan
+  df=df.drop(labels="StudentID", axis=1)
+  # Drop GradeClass Column karena menunjukkan hal yang sama dengan academic performance
+  df=df.drop(labels="GradeClass", axis=1)
+  ```
+### Explaratory Data Analysis - Outliers
+Pengecekan outliers pada data numerik
+- StudyTimeWeekly
+- Absences
+
+### Explaratory Data Analysis - Univariate Analysis
+- Gender
+- Ethnicity
+- ParentalEducation
+- Tutoring
+- ParentalSupport
+- Extracurricular
+- Sports
+- Music
+- Volunteering
+- Data numerik
+### Explaratory Data Analysis - Multivariate Analysis
+Rata-rate 'GPA' Relatif terhadap :
+- Gender
+- Ethnicity
+- ParentalEducation
+- Tutoring
+- ParentalSupport
+- Extracurricular
+- Sports
+- Music
+- Volunteering
+- Data numerik
+- Correlation Matrix
 
 ## Data Preparation
 Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
