@@ -176,7 +176,8 @@ Rata-rate 'GPA' Relatif terhadap :
   ![image](https://github.com/user-attachments/assets/e932d69e-cc96-4b3d-91cf-558ea04e3cc1)
 - Correlation Matrix <br>
   ![image](https://github.com/user-attachments/assets/7c57538f-5c80-4fb4-8fe1-1de2fa14f671)
-Kesimpulan: 
+<br>
+Kesimpulan: <br>
 Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop).
 
 
