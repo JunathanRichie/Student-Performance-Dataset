@@ -118,32 +118,39 @@ Pengecekan outliers pada data numerik
 
 ### Explaratory Data Analysis - Univariate Analysis
 - Gender <br>
-  ![image](https://github.com/user-attachments/assets/40f422f9-90e0-4908-9a6a-c43481bd026b)
-
+  ![image](https://github.com/user-attachments/assets/40f422f9-90e0-4908-9a6a-c43481bd026b) <br>
+  Gender pada data hampir setara dengan female sebanyak 1222 (51,1%) dan male sebanyak 1170 (48,9%). 
 - Ethnicity <br>
-  ![image](https://github.com/user-attachments/assets/47b5b236-f875-4298-848a-0bfbf1327c34)
+  ![image](https://github.com/user-attachments/assets/47b5b236-f875-4298-848a-0bfbf1327c34) <br>
+  Setengah dari kelompok etnis data terdiri dari Caucasian sebanyak 1207 (50,5%). Data-data lainnya yaitu African American sebanyak 493 (20,6%), Asian sebanyak 470(19,6%), dan Other (lainnya) sebanyak 222 (9,3%).
 
 - ParentalEducation <br>
-  ![image](https://github.com/user-attachments/assets/6a18af14-6c24-4a66-b117-0e64fa978302)
-
+  ![image](https://github.com/user-attachments/assets/6a18af14-6c24-4a66-b117-0e64fa978302) <br>
+  Data dari ParentalEducation terdiri dari Some College sebanyak 934 (39,0%), High School sebanyak 728 (30,4%), Bachelor's sebanyak 367 (15,3%), None sebanyak 243 (10,2%), dan Higher sebanyak 120 (5,0%). Hal ini menunjukkan bahwa sebagian besar orang tua memiliki tingkat pendidikan menengah ke atas.
+  Parental
 - Tutoring <br>
-  ![image](https://github.com/user-attachments/assets/749277c4-17c4-471e-b7e9-3ad6ab81937e)
-
+  ![image](https://github.com/user-attachments/assets/749277c4-17c4-471e-b7e9-3ad6ab81937e) <br>
+  Berdasarkan data yang ada, 1671 siswa (69,9%) tidak mengikuti bimbingan belajar dan sisanya 721 (30,1%) mengikuti bimbingan belajar. Hal ini menunjukkan bahwa mayoritas siswa pada data tidak mengikuti bimbingan belajar. 
 - ParentalSupport <br>
-  ![image](https://github.com/user-attachments/assets/e4f82c08-2d36-44d8-b077-c7994ec57d19)
-
+  ![image](https://github.com/user-attachments/assets/e4f82c08-2d36-44d8-b077-c7994ec57d19) <br>
+  Data dari kolom ParentalSupport terdiri dari Moderate sebanyak 740 sampel (30,9%), High sebanyak 697 sampel (29,1%), Low sebanyak 489 sampel (20,4%), Very High sebanyak 254 sampel (10,6%), None sebanyak 212 (8,9%). Hal ini menunjukkan bahwa support dari orang tua cenderung tinggi. 
 - Extracurricular <br>
-  ![image](https://github.com/user-attachments/assets/2b334673-8be2-407a-9ebf-2b98b028dc80)
-
+  ![image](https://github.com/user-attachments/assets/2b334673-8be2-407a-9ebf-2b98b028dc80) <br>
+  Data dari kolom Extracurricular menunjukkan sebagian besar tidak mengikuti ekstrakurikuler, yaitu sebanyak 1475 (61,7%) dan sisanya yang mengikuti ekstrakurikuler sebanyak 917 (38,3%).
 - Sports <br>
-  ![image](https://github.com/user-attachments/assets/9ba29c8f-cd03-43d4-a14f-ea24e6b92a73)
-
+  ![image](https://github.com/user-attachments/assets/9ba29c8f-cd03-43d4-a14f-ea24e6b92a73) <br>
+  Data dari kolom sports menunjukkan sebagian besar tidak mengikuti kegiatan olahraga, yaitu sebanyak 1666 (69,6%) dan yang mengikuti kegiatan olahraga sebanyak 726 (30,4%).
 - Music <br>
-  ![image](https://github.com/user-attachments/assets/908ccdbe-f0f1-49b7-81b3-3a581baf2614)
+  ![image](https://github.com/user-attachments/assets/908ccdbe-f0f1-49b7-81b3-3a581baf2614)<br>
+  Persentase siswa yang mengikuti kegiatan musik sebanyak 80,3% (1921 sampel) dan yang tidak mengikuti sebanyak 19,7% (471 sampel). Hal ini menunjukkan bahwa dari data, hanya sedikit siswa yang mengikuti kegiatan musik.
 - Volunteering <br>
   ![image](https://github.com/user-attachments/assets/c7850a39-5175-477a-b243-ab048d71850f)
+  Persentase siswa yang mengikuti kegiatan volunteering sebanyak 84,3% (2016 sampel) dan yang tidak mengikuti sebanyak 15,7% (376 sampel)
 - Data numerik <br>
   ![image](https://github.com/user-attachments/assets/12a383eb-3419-4931-bc94-4f527f1e2991)
+  Informasi yang didapat adalah:
+  - Penyebaran Age, StudyTimeWeekly, dan Absences terdistribusi secara merata. 
+  - Penyebaran GPA berbentuk seperti lonceng (distribusi normal) dengan mayoritas data berada di antara 1,0 hingga 3,0.
 
 ### Explaratory Data Analysis - Multivariate Analysis
 Rata-rate 'GPA' Relatif terhadap :
@@ -169,6 +176,8 @@ Rata-rate 'GPA' Relatif terhadap :
   ![image](https://github.com/user-attachments/assets/e932d69e-cc96-4b3d-91cf-558ea04e3cc1)
 - Correlation Matrix <br>
   ![image](https://github.com/user-attachments/assets/7c57538f-5c80-4fb4-8fe1-1de2fa14f671)
+Kesimpulan: 
+Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop).
 
 
 ## Data Preparation
