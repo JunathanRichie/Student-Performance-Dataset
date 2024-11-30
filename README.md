@@ -34,11 +34,11 @@ Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat
 ### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
 - StudentID : merupakan penanda unik dari setiap siswa dalam rentang 1001 - 3392
 - Age : merupakan umur dari setiap siswa dalam rentang 15 - 18 tahun
-- Ethnicity: merupakan kelompok etnis dari siswa yang dikodekan sebagai berikut: 
-0: Caucasian
-1: African American
-2: Asian
-3: Other
+- Ethnicity: merupakan kelompok etnis dari siswa yang dikodekan sebagai berikut: <br>
+0: Caucasian <br>
+1: African American <br>
+2: Asian <br>
+3: Other 
 - accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
 - cuisine : merupakan jenis masakan yang disajikan pada restoran.
 - dst
