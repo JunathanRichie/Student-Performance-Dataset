@@ -474,13 +474,16 @@ Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdas
 Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut. <br>
 ![image](https://github.com/user-attachments/assets/ed3e3edf-008b-4923-862a-1e3022f5126b)
 
-MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
+MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. MSE secara sederhana berarti besar error rata-rata dari hasil prediksi dengan kenyataan. Nilai MSE yang semakin kecil menunjukkan hasil model yang semakin baik. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
 | Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
 |----------------------|----------|--------------|------------------|---------|-------------------------|
 | **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
 | **test_mse**         | 0.077413 | 0.055462     | 0.041823         | 0.041583| 0.042754                |
 
-Berdasarkan MSE tersebut, hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. test_mse yang baik menunjukkan bahwa model memberi performa yang baik dalam situasi di dunia nyata. train_mse yang kecil tetapi tidak sebanding dengan test_mse menunjukkan bahwa model cenderung overfit. 
+Berdasarkan MSE tersebut, didapatkan informasi sebagai berikut:
+- hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik. 
+- test_mse yang baik menunjukkan bahwa model memberi performa yang baik dalam situasi di dunia nyata. 
+- Hasil KNN dengan train_mse yang kecil tetapi tidak sebanding dengan test_mse menunjukkan bahwa model cenderung overfit. 
 
 ## Kesimpulan
 
