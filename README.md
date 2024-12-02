@@ -178,8 +178,8 @@ Rata-rate 'GPA' Relatif terhadap :
   ![image](https://github.com/user-attachments/assets/7c57538f-5c80-4fb4-8fe1-1de2fa14f671)
 
 Kesimpulan: <br>
-Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop).
-
+- Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop).
+- Fitur Absences menjadi fitur yang paling berpengaruh terhadap GPA dengan 0.92 poin pada bagian Correlation Matrix
 
 ## Data Preparation
 Data Preparation adalah tahap untuk memproses data sebelum digunakan untuk training model. Data preparation yang dilakukan pada proyek ini adalah:
@@ -471,10 +471,10 @@ Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdas
 
 
 ## Evaluation
-Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut.
+Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut. <br>
 ![image](https://github.com/user-attachments/assets/ed3e3edf-008b-4923-862a-1e3022f5126b)
 
-Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
+MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
 | Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
 |----------------------|----------|--------------|------------------|---------|-------------------------|
 | **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
@@ -484,5 +484,16 @@ Berdasarkan MSE tersebut, hasil model terbaik adalah **XGBoost** dengan test_mse
 
 ## Kesimpulan
 
+Kesimpulan dari proyek ini sebagai berikut.
+- Berdasarkan, correlation matrix didapatkan bahwa absences adalah fitur yang paling berpengaruh terhadap GPA.
+- Model machine learning yang paling tepat untuk prediksi GPA dari dataset ini adalah XGBoost dengan parameter sebagai berikut.
+  ```py
+  'colsample_bytree': 0.7, 
+  'learning_rate': 0.1, 
+  'max_depth': 3, 
+  'n_estimators': 100, 
+  'subsample': 0.9
+  ```
+  Hasil dari test_val pada GPA dengan model ini adalah ```0.041583```
 ## Referensi
 [Educational Data Mining: A Review and Analysis of Student’s Academic Performance](https://www.researchgate.net/publication/341259033_Educational_Data_Mining_A_Review_and_Analysis_of_Student's_Academic_Performance)
