@@ -176,43 +176,312 @@ Rata-rate 'GPA' Relatif terhadap :
   ![image](https://github.com/user-attachments/assets/e932d69e-cc96-4b3d-91cf-558ea04e3cc1)
 - Correlation Matrix <br>
   ![image](https://github.com/user-attachments/assets/7c57538f-5c80-4fb4-8fe1-1de2fa14f671)
-<br>
+
 Kesimpulan: <br>
 Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop).
 
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+Data Preparation adalah tahap untuk memproses data sebelum digunakan untuk training model. Data preparation yang dilakukan pada proyek ini adalah:
+- encoding fitur kategori
+- train test split
+- standarisasi
+### Encoding Fitur Kategori
+Encoding fitur kategori perlu dilakukan karena sebagian besar model machine learning hanya dapat menerima data dalam bentuk numerik. Oleh karena itu, data dalam bentuk string atau object harus diubah terlebih dahulu menjadi bentuk numerik. Pada proyek ini, sebelumnya data kategorikal sudah berbentuk int64. Akan tetapi, karena sebelumnya diperlukan explaratory data analysis maka data diubah menjadi bentuk object (string). Pengembalian data menjadi data numerik dilakukan dengan mapping dari string ke index dari data awal. 
+```py
+# Mengembalikan ke index untuk persiapan training
+df['ParentalEducation'] = df['ParentalEducation'].map(parental_education_to_index)
+df['Tutoring'] = df['Tutoring'].map(bool_to_index_map)
+df['ParentalSupport'] = df['ParentalSupport'].map(parental_support_to_index)
+df['Extracurricular'] = df['Extracurricular'].map(bool_to_index_map)
+df['Sports'] = df['Sports'].map(bool_to_index_map)
+df['Music'] = df['Music'].map(bool_to_index_map)
+```
+### Train Test Split
+Sebelum train test split dilakukan, dibuat terlebih dahulu variabel x dan y. Variabel x adalah variabel yang akan menyimpan berbagai fitur untuk melakukan prediksi, sedangkan variabel y digunakan untuk menyimpan label atau target dari hasil prediksi. Pada proyek ini, variabel x akan berisi: 
+- ParentalEducation
+- StudyTimeWeekly
+- Absences
+- Tutoring
+- ParentalSupport
+- Extracurricular
+- Sports
+- Music <br>
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+sedangkan variabel y akan berisi GPA yang merupakan target dari prediksi model. 
+<br>
+Train test split adalah metode untuk membagi data menjadi data train dan data test. Hal ini dilakukan agar model teruji melakukan prediksi pada data yang sebelumnya belum pernah dilihat. Hal ini penting untuk mengetahui kinerja model di dunia nyata terhadap data-data yang baru. Train test split yang dilakukan pada proyek ini adalah dengan perbandingan 70% data training dan 30% data test. Hasil pembagian menunjukkan dari 2392 data awal menjadi 1674 data untuk train dan 718 data untuk test.
 
+### Standarisasi
+Standarisasi adalah metode untuk mengubah distribusi data numerik sehingga memiliki rata-rata (mean) sebesar 0 dan standar deviasi sebesar 1. Proses ini dilakukan dengan mengurangi nilai mean dari setiap data dan membaginya dengan standar deviasi. Pada proyek ini, standarisasi dilakukan menggunakan StandardScaler dari sklearn. Standarisasi penting karena membantu model bekerja lebih optimal, terutama untuk algoritma yang sensitif terhadap skala fitur, seperti regresi linier atau SVM. Data yang tidak distandarkan dapat menyebabkan skala antar fitur berbeda, sehingga bobot antar fitur menjadi tidak seimbang. Selain itu, proses training model dapat menjadi lebih lambat atau sulit untuk mencapai konvergensi. Dalam proyek ini, fit_transform diterapkan pada data training untuk menghitung parameter statistik (mean dan standar deviasi) serta mentransformasi data, sedangkan transform diterapkan pada data test menggunakan parameter yang dihitung dari data training untuk menjaga konsistensi.
+```py
+from sklearn.preprocessing import StandardScaler
+numerical_features = ['StudyTimeWeekly', 'Absences']
+scaler = StandardScaler()
+X_train[numerical_features] = scaler.fit_transform(X_train.loc[:, numerical_features])
+X_test[numerical_features] = scaler.transform(X_test.loc[:, numerical_features])
+```
 ## Modeling
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
+### K-Nearest Neighbors Regressor
+#### Cara Kerja
+KNN bekerja dengan cara menghitung jarak antara data yang sedang diproses dengan semua data training. Model kemudian memilih "k" tetangga terdekat berdasarkan jarak tersebut. Nilai prediksi dihitung berdasarkan nilai target data dari tetangga tersebut. 
+#### Tahapan Penerapan Model
+1. Import library yang dibutuhkan
+    ```py
+    from sklearn.neighbors import KNeighborsRegressor
+    from sklearn.metrics import mean_squared_error
+    from sklearn.model_selection import GridSearchCV
+    ```
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+    Grid Search Cross Val adalah metode untuk melakukan hyperparameter tuning dengan mencoba semua kombinasi parameter yang ditentukan dalam sebuah grid dan mengevaluasi performanya menggunakan cross-validation.
+    ```py
+    # Definisikan rentang nilai untuk n_neighbors
+    param_grid = {'n_neighbors': range(1, 30), 'weights': ['uniform','distance']} 
+    # Buat objek KNN dan GridSearchCV
+    knn = KNeighborsRegressor()
+    grid_search = GridSearchCV(knn, param_grid, cv=5, scoring='neg_mean_squared_error')
+    ```
+    Parameter yang bisa diatur untuk KNN pada proyek ini adalah: 
+    - `n_neighbors` : jumlah k (tetangga) yang dipilih untuk membuat prediksi
+    - `weights` : menentukan kontribusi setiap tetangga dalam memengaruhi prediksi. Uniform berarti semua tetangga memiliki bobot yang sama, terlepas dari jaraknya. Distance berarti memberikan bobot berdasarkan jarak: tetangga yang lebih dekat memiliki pengaruh lebih besar. Hasil dari Grid Search Cross Val menunjukkan sebagai berikut
+    ```
+    Best n_neighbors: 16
+    Best weights: distance
+    Best cross-validated MSE: 0.07808246633956835
+    ```
+    Hasil hyperparameter tuning akan disimpan dalam variabel `knn_best`
+    ```py
+    knn_best = grid_search.best_estimator_
+    ```
+3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
+    ```
+    Train MSE: 0.0
+    Test MSE: 0.07741318009646177
+    ```
+#### Kelebihan
+- Sederhana dan mudah dipahami
+- Mudah beradaptasi saat sampel training baru ditambahkan karena data pelatihan sudah disimpan
+- Memiliki sedikit hyperparameter
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan kelebihan dan kekurangan dari setiap algoritma yang digunakan.
-- Jika menggunakan satu algoritma pada solution statement, lakukan proses improvement terhadap model dengan hyperparameter tuning. **Jelaskan proses improvement yang dilakukan**.
-- Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
+#### Kekurangan
+- Sensitif terhadap nilai K yang dipilih. Nilai yang kurang tepat dapat menyebabkan overfitting atau underfitting. 
+- Biaya komputasi yang besar karena harus menghitung jarak ke semua titik dalam data training
+- Tidak cocok untuk data dengan dimensi tinggi (banyak fitur) karena jarak Euclidean menjadi kurang bermakna pada data berdimensi tinggi (_curse of dimensionality_)
+
+### Random Forest Regressor
+#### Cara Kerja
+Random Forest Regressor bekerja dengan suatu teknik yang disebut bagging. Teknik ini dilakukan dengan menghasilkan banyak decision tree. Setiap tree akan melakukan prediksi secara independen untuk data input. Setelah itu, Random Forest akan menggabungkan prediksi dari setiap tree untuk menghasilkan output.
+#### Tahapan Penerapan Model
+1. Import library yang dibutuhkan
+    ```py
+    from sklearn.ensemble import RandomForestRegressor
+    ```
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+    ```py
+    param_grid_rf = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [None, 10, 20, 30],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4],
+    'max_features': ['sqrt', 'log2'] 
+    }
+    rf = RandomForestRegressor()
+    grid_search_rf = GridSearchCV(rf, param_grid_rf, cv=5, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
+    ```
+    Parameter yang diatur dalam RandomForestRegressor pada proyek ini sebagai berikut.
+    - `n_estimator`: jumlah Decision Tree yang akan dibuat dalam Random Forest.
+    - `max_depth`: batas maksimum kedalaman tiap tree. Mengatur kedalaman dapat mencegah overfitting dengan membatasi kompleksitas tree. Nilai yang terlalu kecil dapat menyebabkan underfitting.
+    - `min_samples_split`: jumlah minimum data sample yang diperlukan untuk membagi node internal.
+    - `min_samples_leaf`: jumlah minimum data sample yang diperlukan untuk membentuk leaf (node terminal)
+    - `max_features`: jumlah maksimum fitur yang dipertimbangkan untuk pembagian di setiap node. Ini membantu memperkenalkan variasi antar tree dalam random forest. 
+      - sqrt: akar kuadrat dari total fitur
+      - log2: logaritma dasar 2 dari total fitur
+    
+
+    Hasil dari hyperparameter tuning ini adalah sebagai berikut.
+    ```
+    Best RandomForest Parameters: {'max_depth': None, 'max_features': 'log2', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
+    Best cross-validated MSE for RandomForest: 0.056103227833959504
+    ```
+    Hasil hyperparameter tuning ini akan disimpan pada variabel rf_best yang nantinya akan digunakan dalam training
+    ```py
+    rf_best = grid_search_rf.best_estimator_
+    ```
+3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
+    ```
+    train_mse: 0.007555
+    test_mse: 0.055462
+    ```
+#### Kelebihan
+- Mengurangi risiko overfitting karena menggunakan kombinasi dari banyak pohon
+- Dapat menangani secara akurat pada data nonlinear
+- Feature Importance: dapat memberikan informasi pentingnya setiap fitur dalam membuat prediksi
+#### Kekurangan
+- Sulit diinterpretasikan karena gabungan dari banyak pohon
+- Membutuhkan biaya komputasi yang besar terutama untuk dataset berukuran besar karena perlu membangun banyak decision tree
+- Banyak parameter yang perlu dituning
+
+### Gradient Boosting Regressor
+#### Cara Kerja
+Gradient Boosting Regressor adalah algoritma ensemble yang membangun model prediksi secara bertahap dengan fokus pada pengurangan error dari model sebelumnya. Pada setiap langkah, dibuat decision tree untuk melakukan optimasi terhadap error dari model sebelumnya. Hasil akhir dari model ini adalah kombinasi dari semua pohon bobot yang ditentukan oleh learning rate.
+#### Tahapan Penerapan Model
+1. Import library yang dibutuhkan
+    ```py
+    from sklearn.ensemble import GradientBoostingRegressor
+    ```
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+    ```py
+    param_grid_gb = {
+      'n_estimators': [50,100, 200, 300],
+      'learning_rate': [1.0, 0.1, 0.01, 0.001],
+      'max_depth': [2,3,4]
+    }
+    gb = GradientBoostingRegressor()
+    grid_search_gb = GridSearchCV(gb, param_grid_gb, cv=5, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
+    ```
+    Parameter yang diatur dalam Gradient Boosting Regressor sebagai berikut.
+    - `n_estimators`: jumlah Decision Tree yang akan dibuat dalam Gradient Boosting Regressor.
+    - `learning_rate`: mengontrol kontribusi setiap tree dalam memperbaiki kesalahan
+    - `max_depth`: kedalaman maksimum setiap tree
+
+
+    Hasil dari hyperparameter tuning sebagai berikut.
+    ```
+    Best GradientBoosting Parameters:  {'learning_rate': 0.1, 'max_depth': 2, 'n_estimators': 200}
+    Best cross-validated MSE for GradientBoosting: 0.04330606590407221
+    ```
+3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
+    ```
+    train_mse: 0.033964
+    test_mse: 0.041823
+    ```
+    Hasil hyperparameter tuning ini akan disimpan dalam variabel gb_best yang akan digunakan untuk training
+    ```py
+    gb_best = grid_search_gb.best_estimator_
+    ```
+#### Kelebihan
+- Akurasi tinggi karena ditrain berdasarkan error dari hasil sebelumnya.
+- Dapat menangkap pattern yang kompleks dari data
+- Tahan terhadap outliers 
+#### Kekurangan
+- Rentan terhadap noise dan dapat terjadi overfitting terhadap noise dalam data
+- Sulit diinterpretasikan 
+- Biaya komputasi besar terutama jika dataset besar atau tree memiliki kedalaman yang tinggi
+
+### XGB Regressor
+#### Cara Kerja
+XGB Regressor adalah versi lebih efisien dan ditingkatkan dari Gradient Boosting Regressor. Keduanya menggunakan prinsip yang sama yaitu membangun Decision Tree secara bertahap dan berfokus pada error dari Tree sebelumnya. Akan tetapi, XGBoost memiliki beberapa perbedaan yaitu penggunaan second-order gradients untuk mempercepat pelatihan dan meningkatkan akurasi. XGB menyediakan fitur regularisasi (L1 dan L2) untuk menghindari overfitting yang tidak ada di Gradient Boosting Regressor standar. 
+
+#### Tahapan Penerapan Model
+1. Import library yang dibutuhkan
+    ```py
+    from xgboost import XGBRegressor
+    ```
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+    ```py
+    param_grid_xgb = {
+      'n_estimators': [100, 200, 300],
+      'learning_rate': [1.0, 0.1, 0.01, 0.001],
+      'max_depth': [3,5,7],
+      'subsample': [0.7, 0.8, 0.9],
+      'colsample_bytree': [0.7,0.8,0.9]
+    }
+    grid_search_xgb = GridSearchCV(xgb, param_grid_xgb, scoring='neg_mean_squared_error', cv=5, verbose=1, n_jobs=-1)
+    ```
+    Parameter yang diatur dalam XGBRegressor pada proyek ini sebagai berikut:
+    - `n_estimators`: jumlah tree (decision trees) yang akan dibuat oleh model
+    - `learning_rate`: mengontrol kontribusi setiap tree dalam memperbaiki kesalahan
+    - `max_depth`: kedalaman maksimum setiap tree
+    - `subsample`: proporsi data yang digunakan untuk melatih setiap tree
+    - `colsample_bytree`: proporsi fitur yang dipilih secara acak untuk digunakan dalam pembentukan setiap tree
+    
+    
+    Berdasarkan hasil cross val didapatkan hyperparameter tuning sebagai berikut.
+    ```
+    Best XGBoost Parameters:  {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.9}
+    Best cross-validated MSE for XGBoost: 0.0429376708045406
+    ```
+    Hyperparameter tuning disimpan dalam variabel xgb_best
+    ```py
+    xgb_best = grid_search_xgb.best_estimator_
+    ```
+3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
+    ```
+    train_mse: 0.033079
+    test_mse: 0.041583
+    ```
+#### Kelebihan
+- Memiliki akurasi tinggi karena bekerja dengan membangun error dari Tree sebelumnya
+- Memiliki kecepatan dan efisiensi lebih baik daripada Gradient Boosting Regressor
+- Mempunyai regularisasi (L1 dan L2) untuk menghindari overfitting
+#### Kekurangan
+- Memiliki banyak hyperparameter yang perlu dituning
+- Model sulit dipahami dan diinterpretasikan
+
+### Support Vector Regression
+#### Cara Kerja
+SVR bekerja dengan mencari sebuah fungsi yang memiliki margin kesalahan terkecil. Margin ini didefinisikan sebagai data yang berada di luar batas toleransi (epsilon). SVR berusaha untuk menyesuaikan model agar sebanyak mungkin data tetap berada dalam margin sekaligus menjaga model tetap sesederhana mungkin.
+#### Tahapan Penerapan Model
+1. Import library yang dibutuhkan
+    ```py
+    from sklearn.svm import SVR
+    ```
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+    ```py
+    param_grid_svr = {
+        'C': [0.1, 1, 10, 100],           # Range nilai C
+        'epsilon': [0.01, 0.1, 0.2, 0.5], # Range nilai epsilon
+        'gamma': ['scale', 'auto', 0.1, 1] # Pilihan gamma: scale, auto, atau angka
+    }
+    grid_search_svr = GridSearchCV(svr, param_grid_svr, scoring='neg_mean_squared_error', cv=5, verbose=1, n_jobs=-1)
+    ```
+    Parameter yang diatur dalam Support Vector Regression pada proyek ini sebagai berikut:
+    - `C`: parameter regularisasi yang mengontrol keseimbangan antara kesalahan di training data dan margin.
+    - `epsilon`: zona toleransi (margin) di sekitar prediksi model. Error tidak dihitung selama prediksi berada dalam batas tersebut.
+    - `gamma`: parameter kernel yang memengaruhi cakupan pengaruh setiap data point pada model.
+    
+    Berdasarkan hasil cross val didapatkan hyperparameter tuning sebagai berikut.
+    ```
+    Best SupportVectorRegression Parameters:  {'C': 1, 'epsilon': 0.1, 'gamma': 0.1}
+    Best cross-validated MSE for SupportVectorRegression: 0.04316792974427414
+    ```
+    Hyperparameter tuning disimpan dalam variabel svr_best
+    ```py
+    svr_best = grid_search_svr.best_estimator_
+    ```
+3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
+    ```
+    train_mse: 0.035521
+    test_mse: 0.042754
+    ```
+#### Kelebihan
+- Bekerja dengan baik pada data multi-dimensional
+- Bekerja dengan baik pada dataset kecil
+- Fleksibel karena margin toleransi dan kompleksitas model dapat diatur pada parameter C dan epsilon
+#### Kekurangan
+- Sensitif terhadap parameter C dan epsilon sehingga memerlukan eksperimen dan tuning yang tepat
+- Waktu pelatihan lama dan tidak cocok untuk dataset besar 
+### Model Terbaik
+Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdasarkan `test_mse` yang terkecil. `test_mse` dapat dijadikan acuan karena menunjukkan performa model di dunia nyata berbeda dengan `train_mse`. Hasil `test_mse` menunjukkan kemampuan model dalam menghindari overfitting dan generalization terhadap data-data baru yang belum dilihat oleh model sebelumnya. Hasil seluruh model dirangkum dalam tabel di bawah ini.
+
+| Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
+|----------------------|----------|--------------|------------------|---------|-------------------------|
+| **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
+| **test_mse**         | 0.077413 | 0.055462     | 0.041823         | 0.041583| 0.042754                |
+
 
 ## Evaluation
-Pada bagian ini anda perlu menyebutkan metrik evaluasi yang digunakan. Lalu anda perlu menjelaskan hasil proyek berdasarkan metrik evaluasi yang digunakan.
+Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut.
 
-Sebagai contoh, Anda memiih kasus klasifikasi dan menggunakan metrik **akurasi, precision, recall, dan F1 score**. Jelaskan mengenai beberapa hal berikut:
-- Penjelasan mengenai metrik yang digunakan
-- Menjelaskan hasil proyek berdasarkan metrik evaluasi
+Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
+| Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
+|----------------------|----------|--------------|------------------|---------|-------------------------|
+| **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
+| **test_mse**         | 0.077413 | 0.055462     | 0.041823         | 0.041583| 0.042754                |
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+Berdasarkan MSE tersebut, hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. test_mse yang baik menunjukkan bahwa model memberi performa yang baik dalam situasi di dunia nyata. train_mse yang kecil tetapi tidak sebanding dengan test_mse menunjukkan bahwa model cenderung overfit. 
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
-
-**---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+## Kesimpulan
 
 ## Referensi
 [Educational Data Mining: A Review and Analysis of Student’s Academic Performance](https://www.researchgate.net/publication/341259033_Educational_Data_Mining_A_Review_and_Analysis_of_Student's_Academic_Performance)
