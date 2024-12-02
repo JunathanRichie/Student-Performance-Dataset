@@ -472,6 +472,7 @@ Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdas
 
 ## Evaluation
 Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut.
+![image](https://github.com/user-attachments/assets/ed3e3edf-008b-4923-862a-1e3022f5126b)
 
 Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
 | Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
