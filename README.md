@@ -100,13 +100,8 @@ Dataset yang digunakan adalah dataset _Students Performance Dataset_ yang dibuat
   | 75%                | 2794.250000 | 17.000000   | 1.000000    | 2.000000    | 2.000000          | 14.408410       | 22.000000   | 1.000000    | 3.000000        | 1.000000        | 1.000000    | 0.000000    | 0.000000     | 2.622216    | 4.000000    |
   | max                | 3392.000000 | 18.000000   | 1.000000    | 3.000000    | 4.000000          | 19.978094       | 29.000000   | 1.000000    | 4.000000        | 1.000000        | 1.000000    | 1.000000    | 1.000000     | 4.000000    | 4.000000    |
 
-- Berdasarkan data tersebut, kolom StudentID dapat didrop karena tidak memiliki keterkaitan dengan tujuan. Selain itu, kolom GradeClass juga dapat didrop karena menunjukkan hal yang sama dengan GPA tetapi hanya berbeda format. 
-  ```py
-  # Drop StudentID Column karena tidak memiliki keterkaitan dengan tujuan
-  df=df.drop(labels="StudentID", axis=1)
-  # Drop GradeClass Column karena menunjukkan hal yang sama dengan academic performance
-  df=df.drop(labels="GradeClass", axis=1)
-  ```
+- Berdasarkan fungsi describe di atas tidak terlihat keanehan pada data. Akan tetapi, kolom StudentID dapat didrop karena tidak memiliki keterkaitan dengan tujuan. Selain itu, kolom GradeClass juga dapat didrop karena menunjukkan hal yang sama dengan GPA tetapi hanya berbeda format. 
+
 ### Explaratory Data Analysis - Outliers
 Pengecekan outliers pada data numerik
 - StudyTimeWeekly <br>
@@ -144,10 +139,10 @@ Pengecekan outliers pada data numerik
   ![image](https://github.com/user-attachments/assets/908ccdbe-f0f1-49b7-81b3-3a581baf2614)<br>
   Persentase siswa yang mengikuti kegiatan musik sebanyak 80,3% (1921 sampel) dan yang tidak mengikuti sebanyak 19,7% (471 sampel). Hal ini menunjukkan bahwa dari data, hanya sedikit siswa yang mengikuti kegiatan musik.
 - Volunteering <br>
-  ![image](https://github.com/user-attachments/assets/c7850a39-5175-477a-b243-ab048d71850f)
+  ![image](https://github.com/user-attachments/assets/c7850a39-5175-477a-b243-ab048d71850f) <br>
   Persentase siswa yang mengikuti kegiatan volunteering sebanyak 84,3% (2016 sampel) dan yang tidak mengikuti sebanyak 15,7% (376 sampel)
 - Data numerik <br>
-  ![image](https://github.com/user-attachments/assets/12a383eb-3419-4931-bc94-4f527f1e2991)
+  ![image](https://github.com/user-attachments/assets/12a383eb-3419-4931-bc94-4f527f1e2991)<br>
   Informasi yang didapat adalah:
   - Penyebaran Age, StudyTimeWeekly, dan Absences terdistribusi secara merata. 
   - Penyebaran GPA berbentuk seperti lonceng (distribusi normal) dengan mayoritas data berada di antara 1,0 hingga 3,0.
@@ -183,9 +178,18 @@ Kesimpulan: <br>
 
 ## Data Preparation
 Data Preparation adalah tahap untuk memproses data sebelum digunakan untuk training model. Data preparation yang dilakukan pada proyek ini adalah:
+- drop kolom yang tidak berpengaruh atau tidak relevan
 - encoding fitur kategori
 - train test split
 - standarisasi
+### Drop Kolom yang Tidak Berpengaruh atau Tidak Relevan
+Kolom yang dapat didrop pada dataset ini adalah: 
+- StudentID: StudentID dapat didrop karena tidak berkaitan dengan tujuan untuk prediksi GPA. 
+- GradeClass: GradeClass dapat didrop karena memberikan informasi yang sama dengan GPA tetapi hanya dalam format yang berbeda (GradeClass dalam bentuk kategorikal)
+- Age: Age dapat didrop karena hasil dari multivariate analysis menunjukkan bahwa Age memiliki korelasi sangat kecil terhadap GPA. 
+- Gender: Gender dapat didrop karena gender memiliki korelasi yang sangat kecil terhadap GPA dari hasil multivariate analysis. 
+- Ethnicity: Ethnicity dapat didrop karena memiliki korelasi yang sangat kecil terhadap GPA dari hasil multivariate analysis. 
+- Volunteering: Volunteering dapat didrop karena hasil multivariate analysis menunjukkan Volunteering memiliki korelasi yang sangat kecil terhadap GPA. 
 ### Encoding Fitur Kategori
 Encoding fitur kategori perlu dilakukan karena sebagian besar model machine learning hanya dapat menerima data dalam bentuk numerik. Oleh karena itu, data dalam bentuk string atau object harus diubah terlebih dahulu menjadi bentuk numerik. Pada proyek ini, sebelumnya data kategorikal sudah berbentuk int64. Akan tetapi, karena sebelumnya diperlukan explaratory data analysis maka data diubah menjadi bentuk object (string). Pengembalian data menjadi data numerik dilakukan dengan mapping dari string ke index dari data awal. 
 ```py
@@ -232,7 +236,7 @@ KNN bekerja dengan cara menghitung jarak antara data yang sedang diproses dengan
     from sklearn.metrics import mean_squared_error
     from sklearn.model_selection import GridSearchCV
     ```
-2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val
+2. Melakukan hyperparameter tuning dengan menggunakan Grid Search Cross Val<br>
     Grid Search Cross Val adalah metode untuk melakukan hyperparameter tuning dengan mencoba semua kombinasi parameter yang ditentukan dalam sebuah grid dan mengevaluasi performanya menggunakan cross-validation.
     ```py
     # Definisikan rentang nilai untuk n_neighbors
@@ -462,7 +466,7 @@ SVR bekerja dengan mencari sebuah fungsi yang memiliki margin kesalahan terkecil
 - Sensitif terhadap parameter C dan epsilon sehingga memerlukan eksperimen dan tuning yang tepat
 - Waktu pelatihan lama dan tidak cocok untuk dataset besar 
 ### Model Terbaik
-Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdasarkan `test_mse` yang terkecil. `test_mse` dapat dijadikan acuan karena menunjukkan performa model di dunia nyata berbeda dengan `train_mse`. Hasil `test_mse` menunjukkan kemampuan model dalam menghindari overfitting dan generalization terhadap data-data baru yang belum dilihat oleh model sebelumnya. Hasil seluruh model dirangkum dalam tabel di bawah ini.
+Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdasarkan `test_mse` yang terkecil. 
 
 | Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
 |----------------------|----------|--------------|------------------|---------|-------------------------|
@@ -474,7 +478,7 @@ Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdas
 Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut. <br>
 ![image](https://github.com/user-attachments/assets/ed3e3edf-008b-4923-862a-1e3022f5126b)
 
-MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. MSE secara sederhana berarti besar error rata-rata dari hasil prediksi dengan kenyataan. Nilai MSE yang semakin kecil menunjukkan hasil model yang semakin baik. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. 
+MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. MSE secara sederhana berarti besar error rata-rata dari hasil prediksi dengan kenyataan. Nilai MSE yang semakin kecil menunjukkan hasil model yang semakin baik. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. `test_mse` dapat dijadikan acuan karena menunjukkan performa model di dunia nyata berbeda dengan `train_mse`. Hasil `test_mse` menunjukkan kemampuan model dalam menghindari overfitting dan generalization terhadap data-data baru yang belum dilihat oleh model sebelumnya. Hasil seluruh model dirangkum dalam tabel di bawah ini.
 | Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
 |----------------------|----------|--------------|------------------|---------|-------------------------|
 | **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
