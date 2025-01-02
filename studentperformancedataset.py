@@ -21,10 +21,14 @@ Setup dependencies yang dibutuhkan seperti tensorflow, scikit-learn, seaborn, da
 !source tes/bin/activate
 # %pip install kaggle
 # %pip install seaborn
-# %pip install scikit-learn
+# %pip install scikit-learn==1.2.2
 # %pip install xgboost
 # %pip install tensorflow --timeout=600
 # %pip install keras-tuner
+# %pip install "numpy<2.0"
+
+import sklearn
+print("Scikit-Learn version:", sklearn.__version__)
 
 import pandas as pd
 import seaborn as sns
@@ -36,7 +40,7 @@ import matplotlib.pyplot as plt
 
 !unzip -o students-performance-dataset.zip
 
-df = pd.read_csv("/home/kali/ML/dicoding/Student_performance_data _.csv")
+df = pd.read_csv("Student_performance_data _.csv")
 df.head()
 
 """#### Preprocessing Data"""
@@ -91,15 +95,9 @@ Grade Class<br>
 
 df.describe()
 
-"""Berdasarkan fungsi describe di atas tidak terlihat keanehan pada data. Akan tetapi kolom StudentID tidak memiliki keterkaitan dengan tujuan dan tidak berpengaruh terhadap prediksi GPA dari siswa sehingga dapat didrop. Selain itu, kolom GradeClass juga dapat didrop karena menunjukkan hal yang sama dengan kolom GPA tetapi hanya berbeda bentuk (GradeClass dalam bentuk kategorikal)."""
+"""Berdasarkan fungsi describe di atas tidak terlihat keanehan pada data. Akan tetapi kolom StudentID tidak memiliki keterkaitan dengan tujuan dan tidak berpengaruh terhadap prediksi GPA dari siswa sehingga dapat didrop. Selain itu, kolom GradeClass juga dapat didrop karena menunjukkan hal yang sama dengan kolom GPA tetapi hanya berbeda bentuk (GradeClass dalam bentuk kategorikal).
 
-# Drop StudentID Column karena tidak memiliki keterkaitan dengan tujuan
-df=df.drop(labels="StudentID", axis=1)
-# Drop GradeClass Column karena menunjukkan hal yang sama dengan academic performance
-df=df.drop(labels="GradeClass", axis=1)
-df.info()
-
-"""#### Explaratory Data Analysis
+#### Explaratory Data Analysis
 
 Langkah selanjutnya adalah pengecekan outlier dengan boxplot
 """
@@ -277,17 +275,28 @@ plt.title("Correlation Matrix untuk Fitur Numerik ", size=20)
 
 """Fitur Age, Gender, Ethnicity, dan Volunteering memiliki korelasi sangat kecil terhadap GPA sehingga bisa dihiraukan (drop). <br>
 Fitur Absences menjadi fitur yang paling berpengaruh terhadap GPA dengan 0.92 poin pada bagian Correlation Matrix
+
+#### Data Preparation
+
+Langkah awal yang dilakukan adalah drop column. Kolom yang didrop adalah sebagai berikut.
+- StudentID: StudentID dapat didrop karena tidak berkaitan dengan tujuan untuk prediksi GPA.
+- GradeClass: GradeClass dapat didrop karena memberikan informasi yang sama dengan GPA tetapi hanya dalam format yang berbeda (GradeClass dalam bentuk kategorikal)
+- Age: Age dapat didrop karena hasil dari multivariate analysis menunjukkan bahwa Age memiliki korelasi sangat kecil terhadap GPA.
+- Gender: Gender dapat didrop karena gender memiliki korelasi yang sangat kecil terhadap GPA dari hasil multivariate analysis.
+- Ethnicity: Ethnicity dapat didrop karena memiliki korelasi yang sangat kecil terhadap GPA dari hasil multivariate analysis.
+- Volunteering: Volunteering dapat didrop karena hasil multivariate analysis menunjukkan Volunteering memiliki korelasi yang sangat kecil terhadap GPA.
 """
+
+# Drop StudentID Column karena tidak memiliki keterkaitan dengan tujuan
+df=df.drop(labels="StudentID", axis=1)
+# Drop GradeClass Column karena menunjukkan hal yang sama dengan academic performance
+df=df.drop(labels="GradeClass", axis=1)
+df.info()
 
 # Fitur age, gender, ethnicity, volunteering memiliki korelasi sangat kecil sehingga bisa didrop
 df.drop(['Age','Gender','Ethnicity','Volunteering'], inplace=True, axis=1)
 
-df.info()
-
-"""#### Data Preparation
-
-Persiapan data awal dilakukan dengan mengembalikan bentuk data kategorikal yang sebelumnya telah diubah dalam bentuk kalimat kembali menjadi bentuk numerik karena model bekerja lebih baik dengan bentuk numerik.
-"""
+"""Persiapan data awal dilakukan dengan mengembalikan bentuk data kategorikal yang sebelumnya telah diubah dalam bentuk kalimat kembali menjadi bentuk numerik karena model bekerja lebih baik dengan bentuk numerik."""
 
 # Mengembalikan ke index untuk persiapan training
 df['ParentalEducation'] = df['ParentalEducation'].map(parental_education_to_index)
@@ -521,7 +530,7 @@ models.loc['test_mse', 'SupportVectorRegression'] = test_mse_svr
 models
 
 """Berdasarkan tabel di atas, didapatkan informasi sebagai berikut:
-- hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik.
+- hasil model terbaik adalah **GradientBoosting** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik.
 - test_mse yang baik menunjukkan bahwa model memberi performa yang baik dalam situasi di dunia nyata.
 - Hasil KNN dengan train_mse yang kecil tetapi tidak sebanding dengan test_mse menunjukkan bahwa model cenderung overfit.
 """
