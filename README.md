@@ -257,11 +257,6 @@ KNN bekerja dengan cara menghitung jarak antara data yang sedang diproses dengan
     ```py
     knn_best = grid_search.best_estimator_
     ```
-3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
-    ```
-    Train MSE: 0.0
-    Test MSE: 0.07741318009646177
-    ```
 #### Kelebihan
 - Sederhana dan mudah dipahami
 - Mudah beradaptasi saat sampel training baru ditambahkan karena data pelatihan sudah disimpan
@@ -311,11 +306,6 @@ Random Forest Regressor bekerja dengan suatu teknik yang disebut bagging. Teknik
     ```py
     rf_best = grid_search_rf.best_estimator_
     ```
-3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
-    ```
-    train_mse: 0.007555
-    test_mse: 0.055462
-    ```
 #### Kelebihan
 - Mengurangi risiko overfitting karena menggunakan kombinasi dari banyak pohon
 - Dapat menangani secara akurat pada data nonlinear
@@ -353,11 +343,6 @@ Gradient Boosting Regressor adalah algoritma ensemble yang membangun model predi
     ```
     Best GradientBoosting Parameters:  {'learning_rate': 0.1, 'max_depth': 2, 'n_estimators': 200}
     Best cross-validated MSE for GradientBoosting: 0.04330606590407221
-    ```
-3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
-    ```
-    train_mse: 0.033964
-    test_mse: 0.041823
     ```
     Hasil hyperparameter tuning ini akan disimpan dalam variabel gb_best yang akan digunakan untuk training
     ```py
@@ -409,11 +394,6 @@ XGB Regressor adalah versi lebih efisien dan ditingkatkan dari Gradient Boosting
     ```py
     xgb_best = grid_search_xgb.best_estimator_
     ```
-3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
-    ```
-    train_mse: 0.033079
-    test_mse: 0.041583
-    ```
 #### Kelebihan
 - Memiliki akurasi tinggi karena bekerja dengan membangun error dari Tree sebelumnya
 - Memiliki kecepatan dan efisiensi lebih baik daripada Gradient Boosting Regressor
@@ -453,11 +433,6 @@ SVR bekerja dengan mencari sebuah fungsi yang memiliki margin kesalahan terkecil
     ```py
     svr_best = grid_search_svr.best_estimator_
     ```
-3. Melakukan train dan testing dengan menggunakan metrics mean_squared_error berdasarkan hyperparameter tuning yang telah didapat sebelumnya. Hasil train dan testing didapat sebagai berikut.
-    ```
-    train_mse: 0.035521
-    test_mse: 0.042754
-    ```
 #### Kelebihan
 - Bekerja dengan baik pada data multi-dimensional
 - Bekerja dengan baik pada dataset kecil
@@ -466,23 +441,17 @@ SVR bekerja dengan mencari sebuah fungsi yang memiliki margin kesalahan terkecil
 - Sensitif terhadap parameter C dan epsilon sehingga memerlukan eksperimen dan tuning yang tepat
 - Waktu pelatihan lama dan tidak cocok untuk dataset besar 
 ### Model Terbaik
-Model terbaik yang didapatkan adalah XGB Regressor. Hal ini dapat dilihat berdasarkan `test_mse` yang terkecil. 
-
-| Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
-|----------------------|----------|--------------|------------------|---------|-------------------------|
-| **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
-| **test_mse**         | 0.077413 | 0.055462     | 0.041823         | 0.041583| 0.042754                |
-
+Model terbaik yang didapatkan adalah GradientBoosting. Hal ini dapat dilihat berdasarkan `test_mse` yang terkecil. 
 
 ## Evaluation
 Metrik evaluasi yang digunakan dalam proyek ini adalah mean_squared_error (MSE). MSE umum digunakan untuk masalah regresi karena mengukur rata-rata error kuadrat antara nilai prediksi dan nilai aktual dalam regresi. MSE diformulasikan sebagai berikut. <br>
 ![image](https://github.com/user-attachments/assets/ed3e3edf-008b-4923-862a-1e3022f5126b)
 
 MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya berdasarkan formula di atas. MSE secara sederhana berarti besar error rata-rata dari hasil prediksi dengan kenyataan. Nilai MSE yang semakin kecil menunjukkan hasil model yang semakin baik. Hasil MSE dari setiap model dapat dilihat pada tabel berikut. `test_mse` dapat dijadikan acuan karena menunjukkan performa model di dunia nyata berbeda dengan `train_mse`. Hasil `test_mse` menunjukkan kemampuan model dalam menghindari overfitting dan generalization terhadap data-data baru yang belum dilihat oleh model sebelumnya. Hasil seluruh model dirangkum dalam tabel di bawah ini.
-| Evaluasi             | KNN      | RandomForest | GradientBoosting | XGBoost | SupportVectorRegression |
-|----------------------|----------|--------------|------------------|---------|-------------------------|
-| **train_mse**        | 0.0      | 0.007555     | 0.033964         | 0.033079| 0.035521                |
-| **test_mse**         | 0.077413 | 0.055462     | 0.041823         | 0.041583| 0.042754                |
+|           |       KNN |   RandomForest |   GradientBoosting |   XGBoost |   SupportVectorRegression |
+|:----------|----------:|---------------:|-------------------:|----------:|--------------------------:|
+| **train_mse** | 0.0      |     0.007507   |       0.055534  | 0.029742 |                 0.035521 |
+| **test_mse**  | 0.077413 |     0.055534   |        0.041823 | 0.042595 |                 0.042754 |
 
 Berdasarkan MSE tersebut, didapatkan informasi sebagai berikut:
 - hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik. 
