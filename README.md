@@ -299,8 +299,8 @@ Random Forest Regressor bekerja dengan suatu teknik yang disebut bagging. Teknik
 
     Hasil dari hyperparameter tuning ini adalah sebagai berikut.
     ```
-    Best RandomForest Parameters: {'max_depth': None, 'max_features': 'log2', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
-    Best cross-validated MSE for RandomForest: 0.056103227833959504
+    Best RandomForest Parameters: {'max_depth': None, 'max_features': 'log2', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 200}
+    Best cross-validated MSE for RandomForest: 0.05600963426568077
     ```
     Hasil hyperparameter tuning ini akan disimpan pada variabel rf_best yang nantinya akan digunakan dalam training
     ```py
@@ -342,7 +342,7 @@ Gradient Boosting Regressor adalah algoritma ensemble yang membangun model predi
     Hasil dari hyperparameter tuning sebagai berikut.
     ```
     Best GradientBoosting Parameters:  {'learning_rate': 0.1, 'max_depth': 2, 'n_estimators': 200}
-    Best cross-validated MSE for GradientBoosting: 0.04330606590407221
+    Best cross-validated MSE for GradientBoosting: 0.043305711040353946
     ```
     Hasil hyperparameter tuning ini akan disimpan dalam variabel gb_best yang akan digunakan untuk training
     ```py
@@ -387,8 +387,8 @@ XGB Regressor adalah versi lebih efisien dan ditingkatkan dari Gradient Boosting
     
     Berdasarkan hasil cross val didapatkan hyperparameter tuning sebagai berikut.
     ```
-    Best XGBoost Parameters:  {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.9}
-    Best cross-validated MSE for XGBoost: 0.0429376708045406
+    Best XGBoost Parameters:  {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7}
+    Best cross-validated MSE for XGBoost: 0.042579367454686295
     ```
     Hyperparameter tuning disimpan dalam variabel xgb_best
     ```py
@@ -454,7 +454,7 @@ MSE bekerja dengan mengukur besar error dari setiap prediksi lalu menghitungnya 
 | **test_mse**  | 0.077413 |     0.055534   |        0.041823 | 0.042595 |                 0.042754 |
 
 Berdasarkan MSE tersebut, didapatkan informasi sebagai berikut:
-- hasil model terbaik adalah **XGBoost** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik. 
+- hasil model terbaik adalah **GradientBoosting** dengan test_mse terkecil yaitu 0.041823. Nilai 0.041823 jika digunakan untuk prediksi GPA dalam rentang 0.0 hingga 4.0 menunjukkan hasil yang baik. 
 - test_mse yang baik menunjukkan bahwa model memberi performa yang baik dalam situasi di dunia nyata. 
 - Hasil KNN dengan train_mse yang kecil tetapi tidak sebanding dengan test_mse menunjukkan bahwa model cenderung overfit. 
 
@@ -462,7 +462,7 @@ Berdasarkan MSE tersebut, didapatkan informasi sebagai berikut:
 
 Kesimpulan dari proyek ini sebagai berikut.
 - Berdasarkan, correlation matrix didapatkan bahwa absences adalah fitur yang paling berpengaruh terhadap GPA.
-- Model machine learning yang paling tepat untuk prediksi GPA dari dataset ini adalah XGBoost dengan parameter sebagai berikut.
+- Model machine learning yang paling tepat untuk prediksi GPA dari dataset ini adalah GradientBoosting dengan parameter sebagai berikut.
   ```py
   'colsample_bytree': 0.7, 
   'learning_rate': 0.1, 
