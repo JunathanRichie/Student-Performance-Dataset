@@ -464,12 +464,10 @@ Kesimpulan dari proyek ini sebagai berikut.
 - Berdasarkan, correlation matrix didapatkan bahwa absences adalah fitur yang paling berpengaruh terhadap GPA.
 - Model machine learning yang paling tepat untuk prediksi GPA dari dataset ini adalah GradientBoosting dengan parameter sebagai berikut.
   ```py
-  'colsample_bytree': 0.7, 
   'learning_rate': 0.1, 
-  'max_depth': 3, 
-  'n_estimators': 100, 
-  'subsample': 0.9
+  'max_depth': 2, 
+  'n_estimators': 200
   ```
-  Hasil dari test_val pada GPA dengan model ini adalah ```0.041583```
+  Hasil dari test_val pada GPA dengan model ini adalah ```0.041823```
 ## Referensi
 [Educational Data Mining: A Review and Analysis of Student’s Academic Performance](https://www.researchgate.net/publication/341259033_Educational_Data_Mining_A_Review_and_Analysis_of_Student's_Academic_Performance)
